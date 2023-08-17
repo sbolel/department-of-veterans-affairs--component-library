@@ -1,5 +1,14 @@
+import path from 'path';
+
 const commonExtends = ['eslint:recommended', 'prettier'];
-const commonPlugins = ['react', 'prettier'];
+const commonPlugins = [ 'react', 'prettier' ];
+const testExtends = ['plugin:jest/recommended']
+const testPlugins = ['jest', 'react' ];
+const testEnvs = {
+  jest: true,
+  'jest/globals': true,
+  mocha: true,
+}
 
 module.exports = {
   env: {
@@ -15,7 +24,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
     babelOptions: {
-      configFile: './config/babel.config.js',
+      configFile: 'babel.config.js',
     },
   },
   plugins: ['jsx-a11y', ...commonPlugins],
@@ -27,13 +36,13 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['scripts/*.js', 'testing/*.js', 'config/*.js', '.eslintrc.js'],
+      files: ['scripts/*.js', 'testing/*.js', 'config/*.js', '.eslintrc.js', '*.config.js'],
       env: {
         node: true,
-        mocha: true,
+        ...testEnvs,
       },
-      extends: ['plugin:node/recommended', ...commonExtends],
-      plugins: ['mocha', ...commonPlugins],
+      extends: ['plugin:node/recommended', ...testExtends,...commonExtends],
+      plugins: ['jest', 'mocha', ...commonPlugins],
     },
     {
       files: [
@@ -42,10 +51,10 @@ module.exports = {
       ],
       env: {
         node: true,
-        mocha: true,
+        ...testEnvs,
       },
-      extends: [...commonExtends],
-      plugins: ['mocha', ...commonPlugins],
+      extends: [...testExtends, ...commonExtends],
+      plugins: [...testPlugins, ...commonPlugins],
       parserOptions: {
         ecmaVersion: 12,
         sourceType: 'module',

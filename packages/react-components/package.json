@@ -16,7 +16,8 @@
     "url": "git+https://github.com/department-of-veterans-affairs/component-library.git"
   },
   "scripts": {
-    "build": "node ./scripts/build.js",
+    "build": "node ./scripts/build.js && npm run build-types",
+    "build-types": "tsc --emitDeclarationOnly --declaration src/**/*.d.ts",
     "prepublishOnly": "pinst --disable && node ./scripts/prepublish.js",
     "postpublish": "pinst --enable",
     "test-debug": "karma start testing/karma.conf.js --browsers Chrome",
@@ -33,7 +34,7 @@
     "classnames": "^2.2.6",
     "prop-types": "^15.6.2",
     "react-focus-on": "^3.5.1",
-    "react-transition-group": "1",
+    "react-transition-group": "^4.4.5",
     "recast": "^0.14.4"
   },
   "devDependencies": {
@@ -52,8 +53,8 @@
     "@babel/preset-react": "^7.14.5",
     "@department-of-veterans-affairs/formation": "^7.0.8",
     "@department-of-veterans-affairs/web-components": "workspace:packages/web-components",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "axe-core": "^4.4.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-lodash": "^3.3.4",
@@ -82,11 +83,12 @@
     "mocha": "^4.0.1",
     "pinst": "^2.1.4",
     "prettier": "^2.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.7.0",
-    "react-router": "3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.15.0",
     "rimraf": "^3.0.2",
-    "sinon": "^9.2.2"
+    "sinon": "^9.2.2",
+    "typescript": "^5.1.6"
   },
   "resolutions": {
     "trim-newlines": "^4.0.2"
@@ -95,7 +97,7 @@
     "@department-of-veterans-affairs/web-components": "*",
     "i18next": "*",
     "i18next-browser-languagedetector": "*",
-    "react": "^17",
+    "react": "*",
     "react-dom": "*"
   }
 }
