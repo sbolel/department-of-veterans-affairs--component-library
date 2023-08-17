@@ -10,6 +10,7 @@ module.exports = function (api) {
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-syntax-import-meta',
     ['@babel/plugin-proposal-class-properties', { loose: false }],
+    '@babel/plugin-transform-classes',
     '@babel/plugin-proposal-json-strings',
     [
       'transform-react-remove-prop-types',
@@ -41,7 +42,7 @@ module.exports = function (api) {
       browser: {
         presets: [
           [
-            '@babel/env',
+            '@babel/preset-env',
             {
               forceAllTransforms: true,
               targets: {
@@ -56,7 +57,6 @@ module.exports = function (api) {
                 ],
               },
               useBuiltIns: 'entry',
-              corejs: '3.9',
               debug: false,
             },
           ],
@@ -64,7 +64,7 @@ module.exports = function (api) {
         ],
         plugins,
       },
-      node: {
+      es: {
         presets: [
           [
             '@babel/preset-env',
@@ -73,7 +73,7 @@ module.exports = function (api) {
               targets: {
                 node: 'current',
               },
-              modules: 'commonjs',
+              modules: false,
               useBuiltIns: 'entry',
               corejs: '3.9',
             },

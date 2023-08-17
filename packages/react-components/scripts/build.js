@@ -44,6 +44,15 @@ function flattenRequires(bufferString) {
 /* eslint-enable */
 /* eslint-disable no-console */
 
+const rootPath = path.resolve(__dirname, '..');
+const configFile = path.join(rootPath, 'config/babel.config.js');
+const packageFile = path.resolve(__dirname, '../package.json');
+
+const envConf = new Map();
+envConf.set('browser', { outDir: './dist' });
+envConf.set('es', { outDir: './lib' });
+const envList = Array.from(envConf.keys());
+
 // get a flat array of file paths
 const fileNames = [].concat.apply(
   [],
@@ -57,28 +66,139 @@ const fileNames = [].concat.apply(
   ],
 );
 
-const configFile = path.join(__dirname, '../config/babel.config.js');
+const runBuildForTarget = async ({ envName, filename }) => {
+  console.debug(`Beginning build for target: ${envName}`);
 
-fileNames.forEach(fileName => {
+  babel.loadPartialConfig({
+    configFile,
+    envName,
+  });
+
+  const { outDir } = envConf.get(envName);
+  const outputDirectoryPath = path.join(rootPath, outDir);
+  const outputFileName = `${path.parse(filename).name}.js`;
+  const outputFilePath = path.join(outputDirectoryPath, outputFileName);
+
   // read a file into a buffer
-  const fileBuffer = fs.readFileSync(fileName);
+  const buffer = await fs.readFile(filename);
+
   // transform the buffer with babel using babelrc
-  const babelTransformedBuffer = babel.transform(fileBuffer, {
+  const babelTransformedBuffer = babel.transform(buffer, {
     configFile,
   }).code;
   // flatten paths given to all requires
   const requireFlattenedBuffer = flattenRequires(
     babelTransformedBuffer.toString(),
   );
-  const newFileName = `${path.parse(fileName).name}.js`;
 
-  fs.ensureDirSync('./dist');
   // write file to main package folder
-  fs.writeFileSync(`./dist/${newFileName}`, requireFlattenedBuffer);
-  console.log(`${newFileName} built`);
+  return fs
+    .outputFile(outputFilePath, requireFlattenedBuffer)
+    .then(() => {
+      console.log(`${outputFileName} built`);
+    })
+    .catch(err => {
+      console.error(`${outputFileName} build failed!`, err);
+    });
+};
 
-  fs.copyFileSync(
-    path.resolve(__dirname, '../package.json'),
-    './dist/package.json',
+const runBuildForTargetSync = ({ envName, filename }) => {
+  console.debug(`Beginning sync build for target: ${envName}`);
+
+  process.env.BABEL_ENV = envName;
+  babel.loadPartialConfig({
+    configFile,
+    envName,
+  });
+
+  const { outDir } = envConf.get(envName);
+  const outputDirectoryPath = path.join(rootPath, outDir);
+  const outputFileName = `${path.parse(filename).name}.js`;
+  const outputFilePath = path.join(outputDirectoryPath, outputFileName);
+
+  // read a file into a buffer
+  const buffer = fs.readFileSync(filename);
+
+  // transform the buffer with babel using babelrc
+  const babelTransformedBuffer = babel.transform(buffer, {
+    configFile,
+  }).code;
+
+  // flatten paths given to all requires
+  const requireFlattenedBuffer = flattenRequires(
+    babelTransformedBuffer.toString(),
   );
-});
+
+  // write file to main package folder
+  fs.outputFileSync(outputFilePath, requireFlattenedBuffer);
+  console.log(`${outputFileName} built`);
+};
+
+async function build() {
+  const envName = babel.loadOptions().envName;
+  const isTargetEnv = (envName && envConf.has(envName)) || false;
+  const buildList = isTargetEnv && envName ? [envName] : [...envList];
+
+  console.log(
+    `Beginning component-library build for ${buildList.join(', ')} environment${
+      buildList.length > 1 ? 's' : ''
+    }.`,
+  );
+
+  if (false) {
+    await Promise.all(
+      buildList.map(envName => {
+        console.log(`Ensuring build directory for ${envName} env...`);
+        const outDir = envConf.get(envName).outDir;
+        return fs.ensureDir(outDir);
+      }),
+    );
+
+    console.log(
+      `Build directories ensured. Found ${fileNames.length} files to build.`,
+    );
+
+    const promises = buildList
+      .map(envName => {
+        console.log(`Enumerating ${envName} env files and transpiling...`);
+        return fileNames.map(filename => {
+          console.log(`Transpiling ${filename} for ${envName} build.`);
+          return runBuildForTarget({ envName, filename });
+        });
+      })
+      .flat()
+      .concat(() =>
+        fs.copyFile(
+          packageFile,
+          `./${envConf.get(envName).outDir}/package.json`,
+        ),
+      );
+
+    await Promise.all(promises);
+  }
+
+  buildList.forEach(envName => {
+    console.log(`Ensuring build directory for ${envName} env...`);
+    const outDir = envConf.get(envName).outDir;
+
+    fs.ensureDirSync(outDir);
+
+    console.log(`Enumerating ${envName} env files and transpiling...`);
+
+    fileNames.forEach(filename => {
+      console.log(`Transpiling ${filename} for ${envName} build.`);
+      runBuildForTargetSync({ envName, filename });
+    });
+
+    fs.copyFileSync(
+      packageFile,
+      `./${envConf.get(envName).outDir}/package.json`,
+    );
+  });
+
+  // .concat(() =>
+  // fs.copyFile(packageFile, `./${envConf.get(envName).outDir}/package.json`),
+  // );
+}
+
+build();
