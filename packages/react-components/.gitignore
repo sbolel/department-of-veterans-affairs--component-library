@@ -1,6 +1,7 @@
 node_modules
 lib
 dist
+types
 /*.js
 !index.js
 !.eslintrc.js

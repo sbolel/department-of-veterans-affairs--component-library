@@ -19,5 +19,6 @@
     "src/**/*.spec.*",
     "src/**/*.stories.*",
     "src/testing"
-  ]
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
