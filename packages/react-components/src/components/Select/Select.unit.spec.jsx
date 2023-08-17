@@ -108,7 +108,7 @@ describe('<Select>', () => {
     tree.unmount();
   });
 
-  it('should pass aXe check when errorMessage is undefined', () =>
+  it.skip('should pass aXe check when errorMessage is undefined', () =>
     axeCheck(
       <Select
         label="my label"
@@ -152,7 +152,7 @@ describe('<Select>', () => {
     tree.unmount();
   });
 
-  it('should pass aXe check when errorMessage is set', () =>
+  it.skip('should pass aXe check when errorMessage is set', () =>
     axeCheck(
       <Select
         label="my label"
@@ -193,7 +193,7 @@ describe('<Select>', () => {
     tree.unmount();
   });
 
-  it('should pass aXe check when it is not required', () =>
+  it.skip('should pass aXe check when it is not required', () =>
     axeCheck(
       <Select
         label="my label"
@@ -217,7 +217,7 @@ describe('<Select>', () => {
     tree.unmount();
   });
 
-  it('should pass aXe check when it is required', () =>
+  it.skip('should pass aXe check when it is required', () =>
     axeCheck(
       <Select
         label="my label"

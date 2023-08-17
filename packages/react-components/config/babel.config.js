@@ -24,14 +24,7 @@ module.exports = function (api) {
     api.cache.using(() => process.env.NODE_ENV === 'test');
     return {
       presets: [
-        [
-          '@babel/env',
-          {
-            targets: {
-              node: 'current',
-            },
-          },
-        ],
+        ['@babel/preset-env', { targets: { node: 'current' }, modules: 'commonjs' }],
         '@babel/react',
       ],
       plugins: ['dynamic-import-node'].concat(plugins),

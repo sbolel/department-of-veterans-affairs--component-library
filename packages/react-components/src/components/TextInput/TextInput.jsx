@@ -5,7 +5,7 @@ import { makeField } from '../../helpers/fields';
 import i18next from 'i18next';
 
 if (!i18next.exists('collapse-all-aria-label')) {
-  import('../../../i18n-setup');
+  import('../../../../core/src/i18n/i18n-setup');
 }
 
 import dispatchAnalyticsEvent from '../../helpers/analytics';
@@ -60,7 +60,7 @@ class TextInput extends React.Component {
   componentWillUnmount() {
     i18next.off('languageChanged');
   }
-  
+
   render() {
     let ariaDescribedBy = this.props.ariaDescribedBy;
     // Calculate error state.
@@ -72,7 +72,8 @@ class TextInput extends React.Component {
       const errorSpanId = `${this.inputId}-error-message`;
       errorSpan = (
         <span className="usa-input-error-message" role="alert" id={errorSpanId}>
-          <span className="sr-only">{i18next.t('Error')}</span> {this.props.errorMessage}
+          <span className="sr-only">{i18next.t('Error')}</span>{' '}
+          {this.props.errorMessage}
         </span>
       );
       inputErrorClass = 'usa-input-error';
@@ -85,14 +86,18 @@ class TextInput extends React.Component {
     // Calculate max characters and display '(Max. XX characters)' when max is hit.
     if (this.props.field.value) {
       if (this.props.charMax === this.props.field.value.length) {
-        maxCharacters = <small>({i18next.t('max-chars', { length: this.maxlength })})</small>;
+        maxCharacters = (
+          <small>({i18next.t('max-chars', { length: this.maxlength })})</small>
+        );
       }
     }
 
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
-      requiredSpan = <span className="form-required-span">(*{i18next.t('required')})</span>;
+      requiredSpan = (
+        <span className="form-required-span">(*{i18next.t('required')})</span>
+      );
     }
 
     // preventDefault on the div stops the form from submitting after a user

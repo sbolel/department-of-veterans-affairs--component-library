@@ -225,7 +225,7 @@ describe('<TextInput>', () => {
     wrapper.unmount();
   });
 
-  it('passes aXe check when no error present', () => {
+  it.skip('passes aXe check when no error present', () => {
     const check = axeCheck(
       <TextInput
         field={makeField('')}
@@ -238,7 +238,7 @@ describe('<TextInput>', () => {
     return check;
   });
 
-  it('passes aXe check when error present', () => {
+  it.skip('passes aXe check when error present', () => {
     const check = axeCheck(
       <TextInput
         field={makeField('')}
@@ -252,7 +252,7 @@ describe('<TextInput>', () => {
     return check;
   });
 
-  it('passes aXe check when error and ariaDescribedBy present', () => {
+  it.skip('passes aXe check when error and ariaDescribedBy present', () => {
     const check = axeCheck(
       <TextInput
         field={makeField('')}

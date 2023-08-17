@@ -7,7 +7,7 @@ import { makeField } from '../../helpers/fields';
 import dispatchAnalyticsEvent from '../../helpers/analytics';
 
 if (!i18next.exists('collapse-all-aria-label')) {
-  import('../../../i18n-setup');
+  import('../../../../core/src/i18n/i18n-setup');
 }
 
 /**
