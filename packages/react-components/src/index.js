@@ -8,7 +8,7 @@ import IconSearch from './components/IconSearch/IconSearch';
 import IconUser from './components/IconUser/IconUser';
 import LoadingIndicator from './components/LoadingIndicator/LoadingIndicator';
 import MaintenanceBanner from './components/MaintenanceBanner/MaintenanceBanner';
-import Modal from './components/Modal/Modal';
+import Modal from './components/Modal/Modal/';
 import OMBInfo from './components/OMBInfo/OMBInfo';
 import Pagination from './components/Pagination/Pagination';
 import Select from './components/Select/Select';
