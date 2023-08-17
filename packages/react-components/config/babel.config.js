@@ -24,39 +24,64 @@ module.exports = function (api) {
     api.cache.using(() => process.env.NODE_ENV === 'test');
     return {
       presets: [
-        ['@babel/preset-env', { targets: { node: 'current' }, modules: 'commonjs' }],
+        [
+          '@babel/preset-env',
+          { targets: { node: 'current' }, modules: 'commonjs' },
+        ],
         '@babel/react',
       ],
-      plugins: ['dynamic-import-node'].concat(plugins),
+      plugins: [...plugins, 'dynamic-import-node'],
     };
   }
 
   api.cache.using(() => process.env.NODE_ENV !== 'test');
+
   return {
-    // Javascript settings.
-    presets: [
-      [
-        '@babel/env',
-        {
-          forceAllTransforms: true,
-          targets: {
-            browsers: [
-              'Chrome 60',
-              'Firefox 57',
-              'iOS 9',
-              'Edge 14',
-              'ChromeAndroid 64',
-              'Safari 10',
-              'ie 11',
-            ],
-          },
-          useBuiltIns: 'entry',
-          corejs: '3.9',
-          debug: false,
-        },
-      ],
-      '@babel/react',
-    ],
-    plugins,
+    env: {
+      browser: {
+        presets: [
+          [
+            '@babel/env',
+            {
+              forceAllTransforms: true,
+              targets: {
+                browsers: [
+                  'Chrome 60',
+                  'Firefox 57',
+                  'iOS 9',
+                  'Edge 14',
+                  'ChromeAndroid 64',
+                  'Safari 10',
+                  'ie 11',
+                ],
+              },
+              useBuiltIns: 'entry',
+              corejs: '3.9',
+              debug: false,
+            },
+          ],
+          '@babel/react',
+        ],
+        plugins,
+      },
+      node: {
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              forceAllTransforms: true,
+              targets: {
+                node: 'current',
+              },
+              modules: 'commonjs',
+              useBuiltIns: 'entry',
+              corejs: '3.9',
+            },
+          ],
+          '@babel/react',
+        ],
+        plugins: [...plugins, 'dynamic-import-node'],
+      },
+    },
   };
 };

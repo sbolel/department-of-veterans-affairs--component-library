@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
-    "declaration": true,
+    "declaration": false,
     "experimentalDecorators": true,
     "lib": ["dom", "es2017"],
     "moduleResolution": "node",
@@ -10,9 +11,13 @@
     "target": "es2017",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "jsx": "react",
-    "jsxFactory": "h"
+    "jsx": "react-jsx"
   },
   "include": ["src"],
-  "exclude": ["**/node_modules/**", "src/**/*.stories.*", "src/testing"]
+  "exclude": [
+    "node_modules",
+    "src/**/*.spec.*",
+    "src/**/*.stories.*",
+    "src/testing"
+  ]
 }

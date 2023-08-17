@@ -48,6 +48,7 @@ function flattenRequires(bufferString) {
 const fileNames = [].concat.apply(
   [],
   [
+    glob.sync('./src/*.@(js|jsx)'),
     glob.sync('./src/components/**/*.@(js|jsx)', {
       ignore: ['./**/*.unit.spec.@(js|jsx)', './**/*.stories.@(js|jsx)'],
     }),
@@ -56,12 +57,14 @@ const fileNames = [].concat.apply(
   ],
 );
 
+const configFile = path.join(__dirname, '../config/babel.config.js');
+
 fileNames.forEach(fileName => {
   // read a file into a buffer
   const fileBuffer = fs.readFileSync(fileName);
   // transform the buffer with babel using babelrc
   const babelTransformedBuffer = babel.transform(fileBuffer, {
-    configFile: './config/babel.config.js',
+    configFile,
   }).code;
   // flatten paths given to all requires
   const requireFlattenedBuffer = flattenRequires(
@@ -69,7 +72,13 @@ fileNames.forEach(fileName => {
   );
   const newFileName = `${path.parse(fileName).name}.js`;
 
+  fs.ensureDirSync('./dist');
   // write file to main package folder
-  fs.writeFileSync(`./${newFileName}`, requireFlattenedBuffer);
+  fs.writeFileSync(`./dist/${newFileName}`, requireFlattenedBuffer);
   console.log(`${newFileName} built`);
+
+  fs.copyFileSync(
+    path.resolve(__dirname, '../package.json'),
+    './dist/package.json',
+  );
 });
