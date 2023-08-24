@@ -12,7 +12,7 @@
     "build": "yarn build:tokens && yarn build:stylesheets"
   },
   "devDependencies": {
-    "@uswds/uswds": "^3.5.0",
+    "@uswds/uswds": "^3.6.0",
     "sass": "^1.64.1",
     "style-dictionary": "^3.8.0"
   },
