@@ -104,10 +104,8 @@
     "sinon": "^9.2.2",
     "typescript": "^5.1.6"
   },
-  "resolutions": {
-    "trim-newlines": "^4.0.2"
-  },
   "peerDependencies": {
+    "@department-of-veterans-affairs/core": "*",
     "@department-of-veterans-affairs/web-components": "*",
     "i18next": "*",
     "i18next-browser-languagedetector": "*",
@@ -115,5 +113,8 @@
     "react-dom": "*",
     "uswds": "*",
     "webpack": "*"
+  },
+  "resolutions": {
+    "trim-newlines": "^4.0.2"
   }
 }

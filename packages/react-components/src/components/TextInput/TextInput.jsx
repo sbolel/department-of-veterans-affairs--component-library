@@ -19,19 +19,18 @@ import dispatchAnalyticsEvent from '../../helpers/analytics';
  */
 class TextInput extends React.Component {
   constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
+    super()
+    this.handleChange = this.handleChange.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
   }
 
+  // FIXME: don't use unsafe method
   UNSAFE_componentWillMount() {
-    this.inputId = uniqueId('errorable-text-input-');
+    this.inputId = uniqueId('errorable-text-input-')
   }
 
   handleChange(domEvent) {
-    this.props.onValueChange(
-      makeField(domEvent.target.value, this.props.field.dirty),
-    );
+    this.props.onValueChange(makeField(domEvent.target.value, this.props.field.dirty))
   }
 
   handleBlur() {
@@ -45,59 +44,52 @@ class TextInput extends React.Component {
           label: this.props.label,
           value: this.props.field.value,
         },
-      });
+      })
     }
 
-    this.props.onValueChange(makeField(this.props.field.value, true));
+    this.props.onValueChange(makeField(this.props.field.value, true))
   }
 
   componentDidMount() {
     i18next.on('languageChanged', () => {
-      this.forceUpdate();
-    });
+      this.forceUpdate()
+    })
   }
 
   componentWillUnmount() {
-    i18next.off('languageChanged');
+    i18next.off('languageChanged')
   }
 
   render() {
-    let ariaDescribedBy = this.props.ariaDescribedBy;
+    let ariaDescribedBy = this.props.ariaDescribedBy
     // Calculate error state.
-    let errorSpan = '';
-    let maxCharacters;
-    let inputErrorClass = undefined;
-    let labelErrorClass = undefined;
+    let errorSpan = ''
+    let maxCharacters
+    let inputErrorClass = undefined
+    let labelErrorClass = undefined
     if (this.props.errorMessage) {
-      const errorSpanId = `${this.inputId}-error-message`;
+      const errorSpanId = `${this.inputId}-error-message`
       errorSpan = (
         <span className="usa-input-error-message" role="alert" id={errorSpanId}>
-          <span className="sr-only">{i18next.t('Error')}</span>{' '}
-          {this.props.errorMessage}
+          <span className="sr-only">{i18next.t('Error')}</span> {this.props.errorMessage}
         </span>
-      );
-      inputErrorClass = 'usa-input-error';
-      labelErrorClass = 'usa-input-error-label';
-      ariaDescribedBy = ariaDescribedBy
-        ? `${ariaDescribedBy} ${errorSpanId}`
-        : errorSpanId;
+      )
+      inputErrorClass = 'usa-input-error'
+      labelErrorClass = 'usa-input-error-label'
+      ariaDescribedBy = ariaDescribedBy ? `${ariaDescribedBy} ${errorSpanId}` : errorSpanId
     }
 
     // Calculate max characters and display '(Max. XX characters)' when max is hit.
     if (this.props.field.value) {
       if (this.props.charMax === this.props.field.value.length) {
-        maxCharacters = (
-          <small>({i18next.t('max-chars', { length: this.maxlength })})</small>
-        );
+        maxCharacters = <small>({i18next.t('max-chars', { length: this.maxlength })})</small>
       }
     }
 
     // Calculate required.
-    let requiredSpan = undefined;
+    let requiredSpan = undefined
     if (this.props.required) {
-      requiredSpan = (
-        <span className="form-required-span">(*{i18next.t('required')})</span>
-      );
+      requiredSpan = <span className="form-required-span">(*{i18next.t('required')})</span>
     }
 
     // preventDefault on the div stops the form from submitting after a user
@@ -125,7 +117,7 @@ class TextInput extends React.Component {
         />
         {maxCharacters}
       </div>
-    );
+    )
   }
 }
 

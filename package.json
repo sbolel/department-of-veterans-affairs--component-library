@@ -12,6 +12,8 @@
   ],
   "packageManager": "yarn@3.6.1",
   "resolutions": {
+    "@types/react-dom": "^18.2.7",
+    "@types/react": "^18.2.21",
     "ansi-regex": "^5.0.1",
     "diff": "^3.5.0",
     "glob-parent": "^5.1.2",
@@ -21,7 +23,7 @@
     "trim": "^0.0.3",
     "prism": "^1.27.0"
   },
-  "dependencies": {
+  "devDependencies": {
     "webpack": "5"
   }
 }
