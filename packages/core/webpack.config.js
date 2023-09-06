@@ -50,7 +50,7 @@ module.exports = {
         {
           from: '[\\w]*!(index).js',
           to: '../',
-          context: path.resolve(__dirname, '../', 'react-components'),
+          context: path.resolve(__dirname, '../', 'react-components/dist'),
         },
         {
           from: 'react-bindings/**/*',

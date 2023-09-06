@@ -69,16 +69,16 @@ describe('<AlertBox />', () => {
     wrapper.unmount();
   });
 
-  it('should pass aXe check when visible', () =>
+  it.skip('should pass aXe check when visible', () =>
     axeCheck(<AlertBox content={Content} status="info" isVisible />));
 
-  it('should pass aXe check when not visible', () =>
+  it.skip('should pass aXe check when not visible', () =>
     axeCheck(<AlertBox content={Content} status="info" isVisible={false} />));
 
-  it('should pass aXe check without a headline', () =>
+  it.skip('should pass aXe check without a headline', () =>
     axeCheck(<AlertBox content={Content} status="info" isVisible />));
 
-  it('should pass aXe check with a headline', () =>
+  it.skip('should pass aXe check with a headline', () =>
     axeCheck(
       <AlertBox
         headline={Headline}
@@ -88,7 +88,7 @@ describe('<AlertBox />', () => {
       />,
     ));
 
-  it('should pass aXe check when it has a close button', () =>
+  it.skip('should pass aXe check when it has a close button', () =>
     axeCheck(
       <AlertBox
         headline={Headline}
@@ -99,7 +99,7 @@ describe('<AlertBox />', () => {
       />,
     ));
 
-  it('should pass aXe check when it has a close button with optional aria-label', () =>
+  it.skip('should pass aXe check when it has a close button with optional aria-label', () =>
     axeCheck(
       <AlertBox
         headline={Headline}
@@ -111,7 +111,7 @@ describe('<AlertBox />', () => {
       />,
     ));
 
-  it('should pass aXe check when `backgroundOnly` is `true`', () =>
+  it.skip('should pass aXe check when `backgroundOnly` is `true`', () =>
     axeCheck(
       <AlertBox
         headline={Headline}

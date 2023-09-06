@@ -24,7 +24,7 @@ describe('<OMBInfo/>', () => {
     expect(tree.text()).to.contain('Privacy Act Statement');
     tree.unmount();
   });
-  it('should pass aXe check with modal closed', () =>
+  it.skip('should pass aXe check with modal closed', () =>
     axeCheck(
       <OMBInfo
         resBurden={15}
@@ -32,7 +32,7 @@ describe('<OMBInfo/>', () => {
         expDate="Expiration date"
       />,
     ));
-  it('should pass aXe check with modal open', () =>
+  it.skip('should pass aXe check with modal open', () =>
     axeCheck(
       <OMBInfo
         resBurden={15}

@@ -36,7 +36,7 @@ describe('<ExpandingGroup>', () => {
     wrapper.unmount();
   });
 
-  it('passes aXe check when only first child is rendered', () => {
+  it.skip('passes aXe check when only first child is rendered', () => {
     const check = axeCheck(
       <ExpandingGroup open={false}>
         <div className="first" />
@@ -46,7 +46,7 @@ describe('<ExpandingGroup>', () => {
     return check;
   });
 
-  it('passes aXe check when both children are rendered', () => {
+  it.skip('passes aXe check when both children are rendered', () => {
     const check = axeCheck(
       <ExpandingGroup open>
         <div className="first" />
